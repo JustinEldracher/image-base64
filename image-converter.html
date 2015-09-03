@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Image 2 base64</title>
+		<script type="text/javascript">
+			function convert() {
+				var files = document.getElementById("inputFileToLoad").files;
+				for (i = 0; i < files.length; i++){
+					loadImageFileAsURL(files[i]);
+				}
+			}
+			
+			function loadImageFileAsURL(fileToLoad){
+				var fileReader = new FileReader();
+
+				fileReader.onload = function(fileLoadedEvent) {
+					var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+					var divTest = document.getElementById("imgTest");
+					var newImage = document.createElement('img');
+					newImage.src = srcData;
+					document.getElementById("imgdata").innerHTML += '\t// ' + fileToLoad.name + '\r\n"' + srcData + '",\r\n';
+
+					divTest.innerHTML += newImage.outerHTML;
+
+				}
+
+				fileReader.readAsDataURL(fileToLoad);
+			}
+		</script>
+	</head>
+	<body>
+		<h2>Select images files to convert:</h2>
+		<p>
+			<input id="inputFileToLoad" type="file" onchange="convert()" multiple="" />
+		</p>
+
+		<div id="imgTest"></div>
+		<textarea id="imgdata" style="width:600px; height: 500px;"></textarea>
+	</body>
+<html>
